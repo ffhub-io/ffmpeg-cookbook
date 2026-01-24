@@ -2,7 +2,7 @@
 
 Resize videos to different resolutions.
 
-## Scale to Specific Resolution
+## Common Resolutions
 
 ### 1080p (Full HD)
 
@@ -42,7 +42,7 @@ ffmpeg -i input.mp4 -vf scale=-1:720 -c:a copy output.mp4
 
 ## Force Even Dimensions
 
-Some codecs require even dimensions. Use `-2` instead of `-1`:
+Some codecs (like H.264) require even dimensions. Use `-2`:
 
 ```bash
 ffmpeg -i input.mp4 -vf scale=1280:-2 -c:a copy output.mp4
@@ -50,15 +50,11 @@ ffmpeg -i input.mp4 -vf scale=1280:-2 -c:a copy output.mp4
 
 ## Scale by Percentage
 
-Scale to 50% of original:
-
 ```bash
+# Scale to 50%
 ffmpeg -i input.mp4 -vf scale=iw/2:ih/2 -c:a copy output.mp4
-```
 
-Scale to 200% (double size):
-
-```bash
+# Scale to 200%
 ffmpeg -i input.mp4 -vf scale=iw*2:ih*2 -c:a copy output.mp4
 ```
 
@@ -70,15 +66,30 @@ Use lanczos algorithm for better quality:
 ffmpeg -i input.mp4 -vf scale=1920:1080:flags=lanczos -c:a copy output.mp4
 ```
 
-## Run in the Cloud
+## Fit Inside Box (Preserve Aspect Ratio)
 
-Use [FFHub API](https://ffhub.io) for batch scaling:
+Scale to fit within 1280x720 while keeping aspect ratio:
 
 ```bash
-curl -X POST https://api.ffhub.io/v1/tasks \
-  -H "Authorization: Bearer YOUR_API_KEY" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "command": "ffmpeg -i https://example.com/input.mp4 -vf scale=1280:720:flags=lanczos -c:v libx264 -crf 23 output.mp4"
-  }'
+ffmpeg -i input.mp4 -vf "scale=1280:720:force_original_aspect_ratio=decrease" -c:a copy output.mp4
+```
+
+## Add Padding (Letterbox/Pillarbox)
+
+Scale and add black bars to exact dimensions:
+
+```bash
+ffmpeg -i input.mp4 -vf "scale=1280:720:force_original_aspect_ratio=decrease,pad=1280:720:(ow-iw)/2:(oh-ih)/2" -c:a copy output.mp4
+```
+
+## Crop Instead of Scale
+
+Remove edges instead of resizing:
+
+```bash
+# Crop to 1920x1080 from center
+ffmpeg -i input.mp4 -vf "crop=1920:1080" -c:a copy output.mp4
+
+# Crop with offset (x=100, y=50)
+ffmpeg -i input.mp4 -vf "crop=1920:1080:100:50" -c:a copy output.mp4
 ```

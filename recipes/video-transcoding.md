@@ -35,34 +35,45 @@ ffmpeg -i input.mp4 -c:v libx264 -preset medium -crf 23 -c:a aac output.mp4
 ```
 
 **Preset options** (speed vs quality):
-- `ultrafast` - Fastest, largest file
-- `fast` - Good balance
+- `ultrafast` - Fastest encoding, largest file
+- `fast` - Good balance for most cases
 - `medium` - Default
-- `slow` - Better compression
+- `slow` - Better compression, slower
 - `veryslow` - Best compression, slowest
 
 **CRF** (Constant Rate Factor):
 - 0 = Lossless
 - 18 = Visually lossless
-- 23 = Default
+- 23 = Default (good quality)
 - 28 = Smaller file, lower quality
 - 51 = Worst quality
 
 ## H.265/HEVC Encoding (Better Compression)
 
+~50% smaller files than H.264 at same quality:
+
 ```bash
 ffmpeg -i input.mp4 -c:v libx265 -crf 28 -c:a aac output.mp4
 ```
 
-## Run in the Cloud
+Note: H.265 encoding is slower and not all players support it.
 
-Use [FFHub API](https://ffhub.io) to run these commands without local setup:
+## AV1 Encoding (Best Compression, Slowest)
 
 ```bash
-curl -X POST https://api.ffhub.io/v1/tasks \
-  -H "Authorization: Bearer YOUR_API_KEY" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "command": "ffmpeg -i https://example.com/input.mov -c:v libx264 -preset fast -c:a aac output.mp4"
-  }'
+ffmpeg -i input.mp4 -c:v libaom-av1 -crf 30 -c:a libopus output.webm
+```
+
+## Convert for Web (with fast start)
+
+```bash
+ffmpeg -i input.mp4 -c:v libx264 -c:a aac -movflags +faststart output.mp4
+```
+
+The `-movflags +faststart` moves metadata to the beginning for faster streaming.
+
+## Batch Convert All Files in Directory
+
+```bash
+for f in *.mov; do ffmpeg -i "$f" -c:v libx264 -c:a aac "${f%.mov}.mp4"; done
 ```
