@@ -67,7 +67,7 @@ winget install ffmpeg
 
 ## 贡献
 
-发现错误或有实用的命令？[提交 issue](https://github.com/sinancode-com/ffmpeg-cookbook/issues) 或提交 PR！
+发现错误或有实用的命令？[提交 issue](https://github.com/ffhub-io/ffmpeg-cookbook/issues) 或提交 PR！
 
 ## 资源
 

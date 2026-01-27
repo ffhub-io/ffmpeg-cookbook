@@ -67,7 +67,7 @@ winget install ffmpeg
 
 ## 貢献
 
-エラーを見つけた、または便利なレシピがある場合は、[Issue を作成](https://github.com/sinancode-com/ffmpeg-cookbook/issues)するか PR を送ってください！
+エラーを見つけた、または便利なレシピがある場合は、[Issue を作成](https://github.com/ffhub-io/ffmpeg-cookbook/issues)するか PR を送ってください！
 
 ## リソース
 

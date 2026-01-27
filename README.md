@@ -67,7 +67,7 @@ winget install ffmpeg
 
 ## Contributing
 
-Found an error or have a useful recipe? [Open an issue](https://github.com/sinancode-com/ffmpeg-cookbook/issues) or submit a PR!
+Found an error or have a useful recipe? [Open an issue](https://github.com/ffhub-io/ffmpeg-cookbook/issues) or submit a PR!
 
 ## Resources
 
