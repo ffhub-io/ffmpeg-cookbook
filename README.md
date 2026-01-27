@@ -2,6 +2,8 @@
 
 Practical FFmpeg recipes for everyday video/audio processing tasks. No fluff, just commands that work.
 
+**Language**: **English** | [中文](i18n/zh/README.md) | [日本語](i18n/ja/README.md)
+
 ## Recipes
 
 ### Video
