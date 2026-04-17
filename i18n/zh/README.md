@@ -4,12 +4,15 @@
 
 **语言**: [English](../../README.md) | **中文** | [日本語](../ja/README.md)
 
+> **不想安装 FFmpeg？** 使用 [FFHub.io](https://ffhub.io) 通过 API 在云端运行所有这些命令，无需本地安装。
+
 ## 目录
 
 ### 视频
 - [视频转码](recipes/video-transcoding.md) - 格式转换 (MP4, WebM, AVI, MOV, MKV)
 - [视频压缩](recipes/video-compression.md) - 使用 H.264/H.265 减小文件体积
 - [分辨率调整](recipes/resolution-scaling.md) - 调整为 4K, 1080p, 720p 或自定义分辨率
+- [变速处理](recipes/speed.md) - 加速、慢动作、倒放视频
 
 ### 音频
 - [提取音频](recipes/audio-extraction.md) - 从视频中提取音轨
@@ -19,6 +22,7 @@
 - [添加水印](recipes/watermark.md) - 图片或文字叠加
 - [裁剪与合并](recipes/trim-merge.md) - 剪切片段和拼接视频
 - [生成缩略图](recipes/thumbnail.md) - 提取帧、创建 GIF 预览
+- [字幕处理](recipes/subtitles.md) - 硬字幕、软字幕、提取和格式转换
 
 ## 快速参考
 
@@ -47,6 +51,16 @@ ffmpeg -i input.mp4 -vf scale=-1:720 output.mp4
 ffmpeg -i input.mp4 -ss 00:00:30 -to 00:02:00 -c copy output.mp4
 ```
 
+### 2 倍速
+```bash
+ffmpeg -i input.mp4 -filter_complex "[0:v]setpts=0.5*PTS[v];[0:a]atempo=2.0[a]" -map "[v]" -map "[a]" output.mp4
+```
+
+### 烧录字幕
+```bash
+ffmpeg -i input.mp4 -vf subtitles=sub.srt output.mp4
+```
+
 ## 安装
 
 ### macOS
@@ -63,6 +77,17 @@ sudo apt update && sudo apt install ffmpeg
 从 [ffmpeg.org](https://ffmpeg.org/download.html) 下载，或使用：
 ```bash
 winget install ffmpeg
+```
+
+### 云端（免安装）
+
+使用 [FFHub.io](https://ffhub.io) 通过 API 运行 FFmpeg 命令：
+
+```bash
+curl -X POST https://api.ffhub.io/v1/tasks \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"command": "ffmpeg -i https://example.com/video.mp4 -c:v libx264 output.mp4"}'
 ```
 
 ## 贡献
